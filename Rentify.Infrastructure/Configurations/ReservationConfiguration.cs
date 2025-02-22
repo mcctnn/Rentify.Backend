@@ -7,6 +7,9 @@ internal sealed class ReservationConfiguration : IEntityTypeConfiguration<Reserv
 {
     public void Configure(EntityTypeBuilder<Reservation> builder)
     {
-        throw new NotImplementedException();
+        builder.HasOne(r => r.User)
+            .WithMany(u => u.Reservations)
+            .HasForeignKey(r => r.UserId)
+            .OnDelete(DeleteBehavior.NoAction);    
     }
 }

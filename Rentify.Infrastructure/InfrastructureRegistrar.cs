@@ -19,7 +19,7 @@ public static class InfrastructureRegistrar
             opt.UseSqlServer(connectionString);
         });
 
-        services.AddIdentity<User, IdentityRole<Guid>>(opt =>
+        services.AddIdentity<User, Role>(opt =>
         {
             opt.Password.RequiredLength = 1;
             opt.Password.RequireNonAlphanumeric = false;
@@ -29,8 +29,10 @@ public static class InfrastructureRegistrar
             opt.Lockout.MaxFailedAccessAttempts = 3;
             opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
             opt.SignIn.RequireConfirmedEmail = true;
-        }).AddEntityFrameworkStores<ApplicationDbContext>().
-            AddDefaultTokenProviders();
+        })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+
 
         services.AddScoped<IUnitOfWork>(srv => srv.GetRequiredService<ApplicationDbContext>());
 
