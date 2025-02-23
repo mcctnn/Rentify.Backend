@@ -34,5 +34,16 @@ public static class UserModule
                 : Results.InternalServerError(response);
             })
             .Produces<Result<User>>();
+
+        group.MapGet("getitemsbyuserId",
+            async (ISender sender, Guid id, CancellationToken token) =>
+            {
+                var response = await sender.Send(new GetItemsByUserIdQuery(id), token);
+
+                return response.IsSuccessful
+                ? Results.Ok(response)
+                : Results.InternalServerError(response);
+            })
+            .Produces<Result<UserDto>>().WithName("getitemsbyuserId");
     }
 }

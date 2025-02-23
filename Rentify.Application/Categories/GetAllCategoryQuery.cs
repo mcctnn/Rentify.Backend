@@ -1,8 +1,5 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Rentify.Domain.Categories;
-using Rentify.Domain.Users;
-using TS.Result;
 
 namespace Rentify.Application.Categories;
 public sealed record GetAllCategoryQuery() : IRequest<List<CategoryDto>>;
@@ -19,13 +16,13 @@ internal sealed class GetAllCategoryQueryHandler(
 {
     public Task<List<CategoryDto>> Handle(GetAllCategoryQuery request, CancellationToken cancellationToken)
     {
-        var categories = categoryRepository.GetAll();
+        var categories = categoryRepository.GetAll().ToList();
 
         var categoryDtos = categories.Select(c => new CategoryDto
         {
             Id = c.Id,
             Name = c.Name,
-            Description = c.Description
+            Description = c.Description!
         }).ToList();
 
         return Task.FromResult(categoryDtos);

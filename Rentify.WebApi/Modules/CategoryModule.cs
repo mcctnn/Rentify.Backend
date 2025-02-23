@@ -9,7 +9,7 @@ public static class CategoryModule
 {
     public static void RegisterCategoryRoutes(this IEndpointRouteBuilder app)
     {
-        RouteGroupBuilder group = app.MapGroup("/categories").WithTags("Categories").RequireAuthorization();
+        RouteGroupBuilder group = app.MapGroup("/categories").WithTags("Categories");
 
         group.MapPost(string.Empty,
             async (ISender sender, CreateCategoryCommand request, CancellationToken token) =>
@@ -32,5 +32,16 @@ public static class CategoryModule
                 : Results.InternalServerError(response);
             })
             .Produces<Result<Category>>();
+
+        group.MapDelete("delete",
+            async (ISender sender, Guid id, CancellationToken token) =>
+            {
+                var response = await sender.Send(new DeleteCategoryCommand(id), token);
+
+                return response.IsSuccessful
+                ? Results.Ok(response)
+                : Results.InternalServerError(response);
+            })
+            .Produces<Result<string>>();
     }
 }

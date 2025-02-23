@@ -1,7 +1,6 @@
 ﻿using GenericRepository;
 using Mapster;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Rentify.Domain.Categories;
 using Rentify.Domain.Items;
 using TS.Result;
@@ -23,7 +22,7 @@ internal sealed class CreateItemCommandHandler(
 {
     public async Task<Result<string>> Handle(CreateItemCommand request, CancellationToken cancellationToken)
     {
-        var category = await categoryRepository.GetByExpressionAsync(p => p.Id == request.CategoryId);
+        var category = await categoryRepository.GetByExpressionAsync(p => p.Id == request.CategoryId,cancellationToken);
         bool isCategoryNameExists = await categoryRepository.AnyAsync(p => p.Id == request.CategoryId, cancellationToken);
 
         if (!isCategoryNameExists)
@@ -31,12 +30,12 @@ internal sealed class CreateItemCommandHandler(
 
 
         Item item=request.Adapt<Item>();
-        item.CategoryName = category.Name;
-
+        item.CategoryId = request.CategoryId;
+            
         itemRepository.Add(item);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result<string>.Failure("Eşya başarıyla kaydedildi");
+        return Result<string>.Succeed("Eşya başarıyla kaydedildi");
     }
 }
 

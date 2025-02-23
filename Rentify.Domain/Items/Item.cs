@@ -10,7 +10,7 @@ public sealed class Item:Entity
     public string ItemImageUrl { get; set; } = default!;
     public string Description { get; set; } = default!;
     public decimal PricePerDay { get; set; }
-    public string CategoryName { get; set; } = default!;
+    public Guid CategoryId { get; set; }
     public Category? Category { get; set; }
     public string Location { get; set; } = default!;
     public bool IsAvailable { get; set; } = false;
