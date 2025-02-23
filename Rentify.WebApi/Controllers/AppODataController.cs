@@ -29,14 +29,14 @@ public class AppODataController(ISender sender) : ODataController
     }
 
     [HttpGet("categories")]
-    public async Task<List<CategoryDto>> GetAllEmployees(CancellationToken token)
+    public async Task<Result<List<CategoryDto>>> GetAllEmployees(CancellationToken token)
     {
         var response = await sender.Send(new GetAllCategoryQuery(), token);
         return response;
     }
 
     [HttpGet("items")]
-    public async Task<List<Item>> GetAllItems(CancellationToken token)
+    public async Task<Result<List<Item>>> GetAllItems(CancellationToken token)
     {
         var response = await sender.Send(new GetAllItemQuery(), token);
         return response;
