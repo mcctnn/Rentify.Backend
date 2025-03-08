@@ -22,6 +22,17 @@ public static class CategoryModule
             })
             .Produces<Result<string>>();
 
+        group.MapPut("{id}",
+            async (ISender sender, UpdateCategoryCommand request, CancellationToken token) =>
+            {
+                var response = await sender.Send(request, token);
+
+                return response.IsSuccessful
+                ? Results.Ok(response)
+                : Results.InternalServerError(response);
+            })
+            .Produces<Result<string>>();
+
         group.MapGet(string.Empty,
             async (ISender sender, Guid id, CancellationToken token) =>
             {
@@ -33,7 +44,7 @@ public static class CategoryModule
             })
             .Produces<Result<Category>>();
 
-        group.MapDelete("delete",
+        group.MapDelete("{id}",
             async (ISender sender, Guid id, CancellationToken token) =>
             {
                 var response = await sender.Send(new DeleteCategoryCommand(id), token);

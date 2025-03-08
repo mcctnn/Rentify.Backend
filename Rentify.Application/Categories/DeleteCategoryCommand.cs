@@ -14,7 +14,7 @@ internal sealed class DeleteCategoryCommandHandler(
 {
     public async Task<Result<String>> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
     {
-        var category = await categoryRepository.GetByExpressionAsync(p => p.Id == request.Id, cancellationToken);
+        var category = await categoryRepository.FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
 
         if (category is null)
             return Result<string>.Failure("Category not found");

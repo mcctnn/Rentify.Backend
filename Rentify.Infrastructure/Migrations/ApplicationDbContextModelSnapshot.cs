@@ -32,7 +32,7 @@ namespace Rentify.Infrastructure.Migrations
 
                     b.HasKey("UserId", "RoleId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Rentify.Domain.Categories.Category", b =>
@@ -50,7 +50,7 @@ namespace Rentify.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Rentify.Domain.Items.Item", b =>
@@ -93,7 +93,7 @@ namespace Rentify.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Items");
+                    b.ToTable("Items", (string)null);
                 });
 
             modelBuilder.Entity("Rentify.Domain.Reservations.Reservation", b =>
@@ -123,7 +123,7 @@ namespace Rentify.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reservations");
+                    b.ToTable("Reservations", (string)null);
                 });
 
             modelBuilder.Entity("Rentify.Domain.Users.Role", b =>
@@ -146,7 +146,7 @@ namespace Rentify.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
 
                     b.HasData(
                         new
@@ -241,7 +241,7 @@ namespace Rentify.Infrastructure.Migrations
                         .IsUnique()
                         .HasFilter("[UserName] IS NOT NULL");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Rentify.Domain.Items.Item", b =>

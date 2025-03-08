@@ -1,4 +1,6 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Rentify.Domain.Categories;
 using Rentify.Domain.Items;
 using Rentify.Domain.Users;
@@ -18,15 +20,24 @@ public sealed class ItemDto
     public Guid CategoryId { get; set; }
     public string Location { get; set; } = default!;
     public bool IsAvailable { get; set; } = false;
+    public string CategoryName { get; set; } = default!;
+    public string FullName { get; set; } = default!;
 }
 
 internal sealed class GetAllItemQueryHandler(
     IItemRepository itemRepository) : IRequestHandler<GetAllItemQuery, List<Item>>
 {
-    public Task<List<Item>> Handle(GetAllItemQuery request, CancellationToken cancellationToken)
+    public async Task<List<Item>> Handle(GetAllItemQuery request, CancellationToken cancellationToken)
     {
-        var items = itemRepository.GetAll().ToList();
+        var items = await itemRepository.GetAll()
+            .Include(i => i.Owner)
+            .Include(i => i.Category)  
+            .ToListAsync();
 
-        return Task.FromResult(items);
+        return items;
     }
-}
+
+}        
+
+
+

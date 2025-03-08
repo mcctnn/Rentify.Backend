@@ -1,7 +1,5 @@
 ﻿using MediatR;
-using Rentify.Application.Categories;
 using Rentify.Application.Items;
-using Rentify.Domain.Categories;
 using Rentify.Domain.Items;
 using TS.Result;
 
@@ -34,5 +32,16 @@ public static class ItemModule
                 : Results.InternalServerError(response);
             })
             .Produces<Result<Item>>();
+
+        group.MapDelete("{id}",
+            async (ISender sender, Guid id, CancellationToken token) =>
+            {
+                var response = await sender.Send(new DeleteItemCommand(id), token);
+
+                return response.IsSuccessful
+                ? Results.Ok(response)
+                : Results.InternalServerError(response);
+            })
+            .Produces<Result<string>>();
     }
 }

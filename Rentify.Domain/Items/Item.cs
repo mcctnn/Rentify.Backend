@@ -14,6 +14,5 @@ public sealed class Item:Entity
     public Category? Category { get; set; }
     public string Location { get; set; } = default!;
     public bool IsAvailable { get; set; } = false;
-
     public User? Owner { get; set; }
 }

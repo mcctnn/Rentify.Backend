@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
@@ -30,7 +29,6 @@ public class AppODataController(ISender sender) : ODataController
     }
 
     [HttpGet("categories")]
-    [AllowAnonymous]
     public async Task<List<CategoryDto>> GetAllCategories(CancellationToken token)
     {
         var response = await sender.Send(new GetAllCategoryQuery(), token);
@@ -38,7 +36,7 @@ public class AppODataController(ISender sender) : ODataController
     }
 
     [HttpGet("items")]
-    public async Task<Result<List<Item>>> GetAllItems(CancellationToken token)
+    public async Task<List<Item>> GetAllItems(CancellationToken token)
     {
         var response = await sender.Send(new GetAllItemQuery(), token);
         return response;
