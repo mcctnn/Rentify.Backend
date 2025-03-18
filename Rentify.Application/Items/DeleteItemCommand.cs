@@ -22,6 +22,6 @@ internal sealed class DeleteItemCommandHandler(
         itemRepository.Delete(item);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Result<string>.Failure("Item has been deleted success");
+        return Result<string>.Succeed("Item has been deleted success");
     }
 }

@@ -22,6 +22,17 @@ public static class ItemModule
             })
             .Produces<Result<string>>();
 
+        group.MapPut("{id}",
+            async (ISender sender, UpdateItemCommand request, CancellationToken token) =>
+            {
+                var response = await sender.Send(request, token);
+
+                return response.IsSuccessful
+                ? Results.Ok(response)
+                : Results.InternalServerError(response);
+            })
+            .Produces<Result<string>>();
+
         group.MapGet(string.Empty,
             async (ISender sender, Guid id, CancellationToken token) =>
             {

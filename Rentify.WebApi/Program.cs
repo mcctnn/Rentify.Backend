@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.OData;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.Extensions.FileProviders;
 using Rentify.Application;
 using Rentify.Infrastructure;
 using Rentify.WebApi;
@@ -63,6 +64,14 @@ app.UseCors(x => x.AllowAnyHeader()
 .SetIsOriginAllowed(t => true));
 
 app.RegisterRoutes();
+
+app.MapImageEndpoints();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Uploads")),
+    RequestPath = "/uploads"
+});
 
 app.UseAuthentication();
 app.UseAuthorization();

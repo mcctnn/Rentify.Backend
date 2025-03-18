@@ -10,6 +10,8 @@ public sealed record CreateItemCommand(
     Guid UserId,
     string Name,
     string ItemImageUrl,
+    decimal PricePerDay,
+    bool IsAvailable,
     string Description,
     Guid CategoryId,
     string Location) :IRequest<Result<string>>;
